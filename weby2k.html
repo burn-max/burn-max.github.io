@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Temukan Vibe Musik Sejatimu!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Jersey 25', Arial, sans-serif;
+      background: linear-gradient(135deg, #7c6ddd 0%, #422c3a 100%);
+      color: #232336;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    .landing-container {
+      background: rgba(255,255,255,0.85);
+      border-radius: 24px;
+      box-shadow: 0 4px 32px #b6aaff55;
+      padding: 48px 32px 40px 32px;
+      text-align: center;
+      max-width: 420px;
+      margin: 40px 0;
+      position: relative;
+      animation: fadeIn 0.7s;
+    }
+    .landing-title {
+      font-size: 2.2rem;
+      color: #7d3cff;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px #fff;
+    }
+    .landing-desc {
+      font-size: 1.1rem;
+      color: #232336;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+    .cta-btn {
+      font-family: 'Jersey 25', Arial, sans-serif;
+      font-size: 1.2rem;
+      background: linear-gradient(90deg, #b6aaff 0%, #ffb6e6 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 38px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 12px #b6aaff33;
+      transition: background 0.3s, transform 0.2s;
+      letter-spacing: 1px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+    .cta-btn:hover {
+      background: linear-gradient(90deg, #ffb6e6 0%, #b6aaff 100%);
+      transform: scale(1.07);
+    }
+    .music-icon {
+      font-size: 3.2rem;
+      color: #b6aaff;
+      margin-bottom: 18px;
+      animation: bounce 1.2s infinite alternate;
+      display: block;
+    }
+    @keyframes bounce {
+      to { transform: translateY(-18px) scale(1.1);}
+    }
+    /* Quiz Styles */
+    .quiz-container {
+      background: rgba(255,255,255,0.93);
+      border-radius: 24px;
+      box-shadow: 0 4px 32px #b6aaff55;
+      padding: 40px 24px 32px 24px;
+      text-align: center;
+      max-width: 420px;
+      margin: 40px 0;
+      position: relative;
+      animation: fadeIn 0.7s;
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .quiz-title {
+      font-size: 1.7rem;
+      color: #7d3cff;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px #fff;
+    }
+    .quiz-question {
+      font-size: 1.15rem;
+      margin-bottom: 22px;
+      color: #232336;
+      min-height: 48px;
+      transition: color 0.3s;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .quiz-option-btn {
+      font-family: 'Jersey 25', Arial, sans-serif;
+      font-size: 1.08rem;
+      background: #eee;
+      color: #7d3cff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      box-shadow: 0 2px 8px #b6aaff22;
+      text-align: left;
+    }
+    .quiz-option-btn:hover, .quiz-option-btn.selected {
+      background: #b6aaff;
+      color: #fff;
+      transform: scale(1.04);
+    }
+    .quiz-progress {
+      margin-bottom: 18px;
+      color: #b6aaff;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    .quiz-next-btn {
+      font-family: 'Jersey 25', Arial, sans-serif;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, #b6aaff 0%, #ffb6e6 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 32px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      transition: background 0.3s, transform 0.2s;
+      letter-spacing: 1px;
+      display: none;
+    }
+    .quiz-next-btn.show {
+      display: inline-block;
+    }
+    .quiz-result {
+      font-size: 1.2rem;
+      color: #232336;
+      margin-top: 18px;
+      margin-bottom: 10px;
+      min-height: 60px;
+      animation: fadeIn 0.7s;
+    }
+    .quiz-recommendation {
+      font-size: 1.1rem;
+      color: #7d3cff;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      animation: fadeIn 0.7s;
+    }
+    .quiz-restart-btn {
+      font-family: 'Jersey 25', Arial, sans-serif;
+      font-size: 1rem;
+      background: #ffb6e6;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 24px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 16px;
+      transition: background 0.3s, transform 0.2s;
+      letter-spacing: 1px;
+    }
+    .quiz-restart-btn:hover {
+      background: #b6aaff;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    @media (max-width: 600px) {
+      .landing-container { padding: 24px 8px 20px 8px; }
+      .landing-title { font-size: 1.3rem; }
+      .music-icon { font-size: 2rem; }
+      .quiz-container { padding: 18px 4px 12px 4px; }
+      .quiz-title { font-size: 1.1rem; }
+      .quiz-question { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Landing Page -->
+  <div class="landing-container" id="landingContainer">
+    <i class="ri-music-2-fill music-icon"></i>
+    <div class="landing-title">Temukan Vibe Musik Sejatimu!</div>
+    <div class="landing-desc">
+      Ikuti tes singkat kami untuk menemukan kategori musik yang paling cocok dengan vibe kamu saat ini, dan dapatkan rekomendasi lagu eksklusif!
+    </div>
+    <button class="cta-btn" id="startQuizBtn">
+      Mulai Tes Vibe!
+    </button>
+  </div>
+  <!-- Quiz Page -->
+  <div class="quiz-container" id="quizContainer">
+    <div class="quiz-title">Tes Cocoklogi Vibe Musik</div>
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <button class="quiz-next-btn" id="quizNextBtn">Selanjutnya</button>
+    <div class="quiz-result" id="quizResult"></div>
+    <div class="quiz-recommendation" id="quizRecommendation"></div>
+    <button class="quiz-restart-btn" id="quizRestartBtn" style="display:none;">Ulangi Tes</button>
+  </div>
+  <script>
+  // Landing to Quiz
+  document.getElementById('startQuizBtn').onclick = function() {
+    document.getElementById('landingContainer').style.display = 'none';
+    document.getElementById('quizContainer').style.display = 'block';
+  };
+
+  // Pertanyaan dan opsi baru sesuai permintaan
+  const quizData = [
+    {
+      question: "Bagaimana caramu mengatasi stres atau kekecewaan?",
+      options: [
+        { text: "Mengubahnya jadi energi positif, mencari solusi, atau melakukan sesuatu yang produktif.", value: "unstoppable" },
+        { text: "Menerima, mencoba memaafkan, dan mencari hikmahnya.", value: "chill" },
+        { text: "Menangis, meratapi, atau butuh waktu untuk sendiri sebelum bangkit.", value: "reflective" },
+        { text: "Mencari distraksi baru, mencoba hal gila, atau berbagi cerita dengan teman.", value: "euphoric" }
+      ]
+    },
+    {
+      question: "Dalam sebuah pertemuan sosial, kamu cenderung...?",
+      options: [
+        { text: "Menjadi pusat perhatian, memimpin obrolan, dan membuat suasana meriah.", value: "euphoric" },
+        { text: "Menjadi pendengar yang baik, mengamati, dan berbicara hanya jika perlu.", value: "mysterious" },
+        { text: "Sedikit menarik diri, merasa tidak nyaman di keramaian besar.", value: "reflective" },
+        { text: "Berbaur dengan banyak orang, mencari cerita menarik, dan menciptakan koneksi baru.", value: "unstoppable" }
+      ]
+    },
+    {
+      question: "Apa yang membuat hatimu merasa paling 'penuh' atau bahagia?",
+      options: [
+        { text: "Mencapai tujuan, meraih kemenangan, atau menerima pujian.", value: "unstoppable" },
+        { text: "Momen kebersamaan yang hangat dengan orang terdekat, atau kedamaian batin.", value: "chill" },
+        { text: "Memahami emosi yang kompleks, atau merasakan keindahan yang melankolis.", value: "reflective" },
+        { text: "Menemukan hal baru, menghadapi tantangan, atau memulai petualangan spontan.", value: "euphoric" }
+      ]
+    },
+    {
+      question: "Jika mood kamu adalah sebuah warna, warna apa yang kamu pilih hari ini?",
+      options: [
+        { text: "Merah menyala, Kuning cerah, atau Oranye membara.", value: "euphoric" },
+        { text: "Biru langit, Hijau mint, atau warna pastel lembut.", value: "chill" },
+        { text: "Abu-abu gelap, Biru tua, atau Cokelat tanah.", value: "reflective" },
+        { text: "Ungu terang, Emas berkilau, atau warna neon.", value: "mysterious" }
+      ]
+    },
+    {
+      question: "Pilih satu kalimat yang paling menggambarkan filosofi hidupmu saat ini:",
+      options: [
+        { text: "\"Hidup ini panggung, tunjukkan yang terbaik!\"", value: "euphoric" },
+        { text: "\"Ketenangan adalah kunci kebahagiaan sejati.\"", value: "chill" },
+        { text: "\"Setiap akhir adalah awal yang baru, walau terkadang pahit.\"", value: "reflective" },
+        { text: "\"Dunia adalah buku, dan mereka yang tidak bepergian hanya membaca satu halaman.\"", value: "unstoppable" }
+      ]
+    },
+    {
+      question: "Gaya berpakaian yang paling kamu sukai mencerminkan...?",
+      options: [
+        { text: "Berani, stylish, dan stand out.", value: "euphoric" },
+        { text: "Nyaman, effortless, dan klasik.", value: "chill" },
+        { text: "Unik, sedikit misterius, dan penuh makna.", value: "mysterious" },
+        { text: "Santai, praktis, dan siap untuk bergerak.", value: "unstoppable" }
+      ]
+    },
+    {
+      question: "Ketika mendengar sebuah lagu, apa hal pertama yang menarik perhatianmu?",
+      options: [
+        { text: "Beat dan ritmenya yang membuat ingin bergerak.", value: "euphoric" },
+        { text: "Melodinya yang indah dan menenangkan.", value: "chill" },
+        { text: "Liriknya yang dalam dan penuh makna.", value: "reflective" },
+        { text: "Suasana keseluruhan atau instrumentasi yang unik.", value: "mysterious" }
+      ]
+    },
+    {
+      question: "Apa yang paling kamu harapkan dari sebuah lagu?",
+      options: [
+        { text: "Memberi energi untuk beraktivitas atau menari.", value: "euphoric" },
+        { text: "Menenangkan pikiran dan jiwa.", value: "chill" },
+        { text: "Mengajak untuk merenung atau merasakan emosi yang kompleks.", value: "reflective" },
+        { text: "Menginspirasi untuk melakukan sesuatu yang baru atau berpetualang.", value: "unstoppable" }
+      ]
+    },
+    {
+      question: "Jika kamu harus memilih sebuah genre musik untuk sepanjang hari ini, apa pilihanmu?",
+      options: [
+        { text: "Pop yang upbeat, Rock yang energik, atau EDM.", value: "euphoric" },
+        { text: "Akustik, Lo-fi, Klasik, atau Jazz yang menenangkan.", value: "chill" },
+        { text: "Indie Pop yang melankolis, Ballad, atau R&B yang emosional.", value: "reflective" },
+        { text: "Folk yang ceria, K-Pop yang dinamis, atau World Music.", value: "unstoppable" }
+      ]
+    }
+  ];
+
+  // Deskripsi hasil vibe dan penambahan array 'songs' untuk rekomendasi
+  const vibeResult = {
+    "euphoric": {
+      label: "The Euphoric Escapist",
+      desc: `
+        Kamu adalah pencari kegembiraan dan kebebasan. Ketika musik mengalun, kamu ingin melepaskan diri dari realita, menari tanpa beban, dan merasakan ledakan kebahagiaan. Hidup adalah festival dan setiap beat adalah undangan untuk merayakan.<br><br>
+        <b>Karakteristik Musikal:</b><br>
+        Tempo: Cepat, upbeat, energik.<br>
+        Melodi: Catchy, anthemic, seringkali dengan build-up dan drop yang memuaskan.<br>
+        Lirik: Positif, tentang perayaan, kebebasan, cinta yang membara, atau melarikan diri dari masalah.<br>
+        Instrumentasi: Synthesizer cerah, heavy bass, punchy drums, vokal kuat, seringkali diiringi choir atau ad-libs.<br>
+        <b>Genre Umum:</b> EDM, Pop Dance, Disco, Funk yang energetik.
+      `,
+      songs: [
+        { 
+          title: "Dynamite", 
+          artist: "BTS", 
+          spotifyUrl: "https://open.spotify.com/intl-id/track/72IwoG8tqvIWV10IHjpNNA?si=434a399c99bb4a48", 
+          embedId: "72IwoG8tqvIWV10IHjpNNA"
+        },
+        { 
+          title: "Uptown Funk", 
+          artist: "Mark Ronson ft. Bruno Mars", 
+          spotifyUrl: "https://open.spotify.com/intl-id/track/32OlwWuMpZ6b0aN2RZOeMS?si=6837cdce102146e0", 
+          embedId: "32OlwWuMpZ6b0aN2RZOeMS"
+        },
+        { 
+          title: "Party Rock Anthem", 
+          artist: "LMFAO", 
+          spotifyUrl: "https://open.spotify.com/intl-id/track/7mitXLIMCflkhZiD34uEQI?si=f4640b11d91f45df", 
+          embedId: "7mitXLIMCflkhZiD34uEQI"
+        }
+      ],
+    },
+    "reflective": {
+      label: "The Reflective Soul",
+      desc: `
+        Kamu adalah seorang perenung yang mendalam. Musik bagimu adalah cermin emosi, teman di kala sunyi, atau jembatan untuk memahami kompleksitas perasaan. Kamu menghargai lirik yang puitis, melodi yang menyentuh, dan suasana yang syahdu.<br><br>
+        <b>Karakteristik Musikal:</b><br>
+        Tempo: Lambat hingga sedang, menenangkan, atau bahkan terasa melankolis.<br>
+        Melodi: Harmonis, seringkali menggunakan akor minor atau progresi yang "mengawang".<br>
+        Lirik: Introspektif, metaforis, tentang cinta yang rumit, kehilangan, kerinduan, atau pencarian makna hidup.<br>
+        Instrumentasi: Piano solo, gitar akustik, cello, biola, synthesizer pad lembut, vokal emosional.<br>
+        <b>Genre Umum:</b> Indie Folk, Ballad, Acoustic Pop, Lo-fi, Ambient, sebagian Jazz.
+      `,
+      songs: [
+        { 
+          title: "Someone You Loved", 
+          artist: "Lewis Capaldi", 
+          spotifyUrl: "https://open.spotify.com/intl-id/track/7qEHsqek33rTcFNT9PFqLf?si=7ab25bde2f6c4273", 
+          embedId: "7qEHsqek33rTcFNT9PFqLf" 
+        },
+        { 
+          title: "Zona Nyaman", 
+          artist: "Fourtwnty", 
+          spotifyUrl: "https://open.spotify.com/intl-id/track/4lfAvFv8roumWVKXhHF8uN?si=a871951932bf4c4d", 
+          embedId: "4lfAvFv8roumWVKXhHF8uN" 
+        },
+        { 
+          title: "Liability", 
+          artist: "Lorde", 
+          spotifyUrl: "https://open.spotify.com/intl-id/track/6Kkt27YmFyIFrcX3QXFi2o?si=5f25e966d31f4b05", 
+          embedId: "6Kkt27YmFyIFrcX3QXFi2o" 
+        }
+      ],
+    },
+    "unstoppable": {
+      label: "The Unstoppable Achiever",
+      desc: `
+        Kamu adalah individu yang ambisius, fokus pada tujuan, dan memiliki semangat pantang menyerah. Musik adalah bahan bakar motivasimu, membangkitkan keberanian, dan mendorongmu untuk mengatasi setiap rintangan. Kamu mencari suara yang membakar semangat dan lirik yang menginspirasi.<br><br>
+        <b>Karakteristik Musikal:</b><br>
+        Tempo: Sedang hingga cepat, dengan beat yang stabil dan kuat.<br>
+        Melodi: Membangun, seringkali dengan crescendo dan chorus yang powerful.<br>
+        Lirik: Memberdayakan, tentang kemenangan, kerja keras, kepercayaan diri, menghadapi tantangan, dan meraih impian.<br>
+        Instrumentasi: Drum dinamis, gitar elektrik crunchy, brass section megah, synthesizer dramatis, vokal fierce.<br>
+        <b>Genre Umum:</b> Pop-Rock, Alternative Rock, Hip-Hop motivasi, K-Pop powerful, Film Score inspiratif.
+      `,
+      songs: [
+        { title: "Believer", artist: "Imagine Dragons", spotifyUrl: "https://open.spotify.com/intl-id/track/0pqnGHJpmpxLKifKRmU6WP?si=d9d7202808c74c97", embedId: "0pqnGHJpmpxLKifKRmU6WP" },
+        { title: "Manusia Kuat", artist: "Tulus", spotifyUrl: "https://open.spotify.com/intl-id/track/1vT1rKlEzvT9r0uYwAuwC8?si=bd9b2c94a6414bdd", embedId: "1vT1rKlEzvT9r0uYwAuwC8" },
+        { title: "UNFORGIVEN", artist: "LE SSERAFIM (feat. Nile Rodgers)", spotifyUrl: "https://open.spotify.com/intl-id/track/4fsQ0K37TOXa3hEQfjEic1?si=c7ed8724ff574d0f", embedId: "4fsQ0K37TOXa3hEQfjEic1" }
+      ],
+    },
+    "chill": {
+      label: "The Chill & Content",
+      desc: `
+        Kamu adalah sosok yang santai, easy-going, dan menemukan kebahagiaan dalam kesederhanaan. Hidup ini untuk dinikmati tanpa terburu-buru. Musik bagimu adalah soundtrack untuk momen-momen tenang, bersantai di pantai, atau sekadar menikmati secangkir kopi.<br><br>
+        <b>Karakteristik Musikal:</b><br>
+        Tempo: Lambat hingga sedang, dengan ritme yang rileks dan groovy.<br>
+        Melodi: Mengalir, menenangkan, seringkali repetitif namun menenangkan.<br>
+        Lirik: Tentang bersantai, liburan, cinta yang ringan, kebersamaan, atau menikmati momen saat ini.<br>
+        Instrumentasi: Gitar akustik, ukulele, light percussion, soft bassline, smooth vocals, kadang reggae/bossanova.<br>
+        <b>Genre Umum:</b> Lo-fi Hip-Hop, Indie Pop ringan, Reggae, Smooth Jazz, Acoustic Pop, Chillwave.
+      `,
+      songs: [
+        { title: "Dolphin", artist: "OH MY GIRL", spotifyUrl: "https://open.spotify.com/intl-id/track/5gpojs9yi3nm8aC3BOg6q5?si=48f997513e6e4ac5", embedId: "5gpojs9yi3nm8aC3BOg6q5" },
+        { title: "Island In The Sun", artist: "Weezer", spotifyUrl: "https://open.spotify.com/intl-id/track/2MLHyLy5z5l5YRp7momlgw?si=34710bd51376407d", embedId: "2MLHyLy5z5l5YRp7momlgw" },
+        { title: "Sunday Morning", artist: "Maroon 5", spotifyUrl: "https://open.spotify.com/intl-id/track/5qII2n90lVdPDcgXEEVHNy?si=5a3df07868454028", embedId: "5qII2n90lVdPDcgXEEVHNy" }
+      ],
+    },
+    "mysterious": {
+      label: "The Mysterious Observer",
+      desc: `
+        Kamu memiliki sisi yang sedikit misterius, tenang, dan suka mengamati dunia dari kejauhan. Ada kedalaman dalam dirimu yang tidak selalu terungkap. Musik yang gelap, atmosferis, dan sedikit surealis menarik perhatianmu, mengundangmu untuk menjelajah alam bawah sadar.<br><br>
+        <b>Karakteristik Musikal:</b><br>
+        Tempo: Sangat lambat, seringkali tanpa beat yang jelas, atau dengan beat yang hipnotis.<br>
+        Melodi: Minimalis, repetitif, kadang disonan, menciptakan suasana tegang atau hampa.<br>
+        Lirik: Abstrak, puitis, tentang rahasia, mimpi, kegelapan, pertanyaan eksistensial, atau narasi samar.<br>
+        Instrumentasi: Deep bass, sparse drums, ambient synthesizers, distorted guitars, vokal berbisik/melayang.<br>
+        <b>Genre Umum:</b> Dark Ambient, Trip-Hop, Avant-garde Pop, Indie Pop/Rock gelap, Post-Rock.
+      `,
+      songs: [
+        { title: "bury a friend", artist: "Billie Eilish", spotifyUrl: "https://open.spotify.com/intl-id/track/4SSnFejRGlZikf02HLewEF?si=dacc9747d0454746", embedId: "4SSnFejRGlZikf02HLewEF" },
+        { title: "Pure Imagination", artist: "Fiona Apple", spotifyUrl: "https://open.spotify.com/intl-id/track/1m9TZ1dpYEQnczSsI6z9Ku?si=e5815fb61a1d4743", embedId: "1m9TZ1dpYEQnczSsI6z9Ku" },
+        { title: "R.I.P. 2 My Youth", artist: "The Neighbourhood", spotifyUrl: "https://open.spotify.com/intl-id/track/07VBqWH6NG8L2ad3l84UKk?si=1bb425395215435b", embedId: "07VBqWH6NG8L2ad3l84UKk" }
+      ],
+    }
+  };
+
+  let currentQuestion = 0;
+  let answers = [];
+
+  const quizQuestion = document.getElementById('quizQuestion');
+  const quizOptions = document.getElementById('quizOptions');
+  const quizNextBtn = document.getElementById('quizNextBtn');
+  const quizProgress = document.getElementById('quizProgress');
+  const quizResult = document.getElementById('quizResult');
+  const quizRecommendation = document.getElementById('quizRecommendation');
+  const quizRestartBtn = document.getElementById('quizRestartBtn');
+
+  function showQuestion(index) {
+    const q = quizData[index];
+    quizQuestion.textContent = q.question;
+    quizOptions.innerHTML = '';
+    quizResult.textContent = '';
+    quizRecommendation.textContent = '';
+    quizNextBtn.classList.remove('show');
+    quizNextBtn.disabled = true; // Disable tombol di awal
+    quizProgress.textContent = `Pertanyaan ${index + 1} dari ${quizData.length}`;
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option-btn';
+      btn.textContent = opt.text;
+      btn.onclick = () => {
+        document.querySelectorAll('.quiz-option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        answers[index] = opt.value;
+        quizNextBtn.classList.add('show');
+        quizNextBtn.disabled = false; // Enable tombol jika sudah memilih
+      };
+      quizOptions.appendChild(btn);
+    });
+  }
+
+  quizNextBtn.onclick = function() {
+    // Cegah lanjut jika belum memilih
+    if (!answers[currentQuestion]) {
+      quizNextBtn.disabled = true;
+      return;
+    }
+    if (currentQuestion < quizData.length - 1) {
+      currentQuestion++;
+      showQuestion(currentQuestion);
+    } else {
+      showResult();
+    }
+    quizNextBtn.classList.remove('show');
+    quizNextBtn.disabled = true;
+  };
+
+  function showResult() {
+    const count = {};
+    answers.forEach(val => {
+      count[val] = (count[val] || 0) + 1;
+    });
+
+    let max = 0;
+    let result = "chill"; // Default value jika tidak ada jawaban
+    for (const key in count) {
+      if (count[key] > max) {
+        max = count[key];
+        result = key;
+      }
+    }
+
+    const selectedVibe = vibeResult[result];
+
+    quizQuestion.textContent = '';
+    quizOptions.innerHTML = '';
+    quizProgress.textContent = 'Tes Selesai!';
+
+    // Menampilkan deskripsi vibe
+    quizResult.innerHTML = `
+      <div style="animation: fadeIn 0.7s;">
+        <h2 style="color: #7d3cff; margin-bottom: 15px;">Vibe Kamu Adalah: ${selectedVibe.label}</h2>
+        <p style="font-size: 1rem; line-height: 1.6; color: #232336; text-align: left;">
+          ${selectedVibe.desc}
+        </p>
+      </div>
+    `;
+
+    // Membangun daftar rekomendasi lagu + iframe preview
+    let songListHtml = '<h3>Rekomendasi Lagu untuk Vibe Ini:</h3><ul>';
+    selectedVibe.songs.forEach(song => {
+      songListHtml += `
+        <li style="margin-bottom:24px;">
+          <b>${song.title}</b> - ${song.artist}
+          <a href="${song.spotifyUrl}" target="_blank" rel="noopener noreferrer" style="color: #7d3cff; text-decoration: none; margin-left: 8px;">
+            Dengarkan di Spotify <i class="ri-external-link-line"></i>
+          </a>
+          ${song.embedId ? `
+            <div style="margin-top:8px;">
+              <iframe 
+                style="border-radius:12px" 
+                src="https://open.spotify.com/embed/track/${song.embedId}?utm_source=generator"
+                width="100%" 
+                height="80" 
+                frameBorder="0" 
+                allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+              </iframe>
+            </div>
+          ` : ''}
+        </li>
+      `;
+    });
+    songListHtml += '</ul>';
+
+    quizRecommendation.innerHTML = songListHtml;
+
+    quizNextBtn.style.display = 'none';
+    quizRestartBtn.style.display = 'inline-block';
+  }
+
+  quizRestartBtn.onclick = function() {
+    currentQuestion = 0;
+    answers = [];
+    showQuestion(0);
+    quizRestartBtn.style.display = 'none';
+  };
+
+  // Jika quizContainer tampil, mulai quiz
+  const observer = new MutationObserver(function() {
+    if (document.getElementById('quizContainer').style.display === 'block') {
+      currentQuestion = 0;
+      answers = [];
+      showQuestion(0);
+      quizRestartBtn.style.display = 'none';
+    }
+  });
+  observer.observe(document.getElementById('quizContainer'), { attributes: true, attributeFilter: ['style'] });
+  </script>
+</body>
+</html>
